@@ -1,0 +1,47 @@
+{
+  "id": "C06",
+  "file": "C06.pdf",
+  "source": "scanned",
+  "expected_risk": "high",
+  "planted": [
+    "金额150万超100万且未会签"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "恒信医疗器械有限公司",
+      "quote": "甲方（需方）：恒信医疗器械有限公司"
+    },
+    "supplier_name": {
+      "value": "金石工业材料有限公司",
+      "quote": "乙方（供方）：金石工业材料有限公司"
+    },
+    "amount": {
+      "value": 1500000,
+      "quote": "（小写：¥1,500,000.00）"
+    },
+    "payment_days": {
+      "value": 40,
+      "quote": "甲方在40日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 12.0,
+      "quote": "按合同总金额的12%"
+    },
+    "delivery_date": {
+      "value": "2026-12-20",
+      "quote": "应于2026年12月20日前"
+    },
+    "signing_date": {
+      "value": "2026-08-25",
+      "quote": "签订日期：2026年8月25日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": "未会签",
+      "quote": "会签记录：未会签"
+    }
+  }
+}

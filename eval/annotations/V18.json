@@ -1,0 +1,47 @@
+{
+  "id": "V18",
+  "file": "V18.pdf",
+  "source": "text",
+  "expected_risk": "warning",
+  "planted": [
+    "无争议解决条款"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "华辰智造（苏州）有限公司",
+      "quote": "甲方（需方）：华辰智造（苏州）有限公司"
+    },
+    "supplier_name": {
+      "value": "迅捷自动化设备有限公司",
+      "quote": "乙方（供方）：迅捷自动化设备有限公司"
+    },
+    "amount": {
+      "value": 560000,
+      "quote": "（小写：¥560,000.00）"
+    },
+    "payment_days": {
+      "value": 50,
+      "quote": "甲方在50日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 15.0,
+      "quote": "按合同总金额的15%"
+    },
+    "delivery_date": {
+      "value": "2026-11-25",
+      "quote": "应于2026年11月25日前"
+    },
+    "signing_date": {
+      "value": "2026-08-19",
+      "quote": "签订日期：2026年8月19日"
+    },
+    "dispute_resolution": {
+      "value": null,
+      "quote": null
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

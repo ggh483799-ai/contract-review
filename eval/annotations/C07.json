@@ -1,0 +1,47 @@
+{
+  "id": "C07",
+  "file": "C07.pdf",
+  "source": "scanned",
+  "expected_risk": "warning",
+  "planted": [
+    "违约金条款缺失"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "华辰智造（苏州）有限公司",
+      "quote": "甲方（需方）：华辰智造（苏州）有限公司"
+    },
+    "supplier_name": {
+      "value": "鑫泰五金制品有限公司",
+      "quote": "乙方（供方）：鑫泰五金制品有限公司"
+    },
+    "amount": {
+      "value": 300000,
+      "quote": "（小写：¥300,000.00）"
+    },
+    "payment_days": {
+      "value": 35,
+      "quote": "甲方在35日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": null,
+      "quote": null
+    },
+    "delivery_date": {
+      "value": "2026-09-25",
+      "quote": "应于2026年9月25日前"
+    },
+    "signing_date": {
+      "value": "2026-08-08",
+      "quote": "签订日期：2026年8月8日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

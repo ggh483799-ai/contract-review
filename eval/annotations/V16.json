@@ -1,0 +1,47 @@
+{
+  "id": "V16",
+  "file": "V16.pdf",
+  "source": "text",
+  "expected_risk": "high",
+  "planted": [
+    "违约金30%>20%红线"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "鼎盛机械制造有限公司",
+      "quote": "甲方（需方）：鼎盛机械制造有限公司"
+    },
+    "supplier_name": {
+      "value": "江南轴承股份有限公司",
+      "quote": "乙方（供方）：江南轴承股份有限公司"
+    },
+    "amount": {
+      "value": 380000,
+      "quote": "（小写：¥380,000.00）"
+    },
+    "payment_days": {
+      "value": 45,
+      "quote": "甲方在45日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 30.0,
+      "quote": "按合同总金额的30%"
+    },
+    "delivery_date": {
+      "value": "2026-11-05",
+      "quote": "应于2026年11月5日前"
+    },
+    "signing_date": {
+      "value": "2026-08-16",
+      "quote": "签订日期：2026年8月16日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "C09",
+  "file": "C09.pdf",
+  "source": "text",
+  "expected_risk": "high",
+  "planted": [
+    "账期65天>60天红线"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "蓝海精密仪器股份有限公司",
+      "quote": "甲方（需方）：蓝海精密仪器股份有限公司"
+    },
+    "supplier_name": {
+      "value": "天工精密模具有限公司",
+      "quote": "乙方（供方）：天工精密模具有限公司"
+    },
+    "amount": {
+      "value": 980000,
+      "quote": "（小写：¥980,000.00）"
+    },
+    "payment_days": {
+      "value": 65,
+      "quote": "甲方在65日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 18.0,
+      "quote": "按合同总金额的18%"
+    },
+    "delivery_date": {
+      "value": "2026-11-15",
+      "quote": "应于2026年11月15日前"
+    },
+    "signing_date": {
+      "value": "2026-08-22",
+      "quote": "签订日期：2026年8月22日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

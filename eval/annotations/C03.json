@@ -1,0 +1,47 @@
+{
+  "id": "C03",
+  "file": "C03.pdf",
+  "source": "text",
+  "expected_risk": "high",
+  "planted": [
+    "账期75天>60天红线"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "蓝海精密仪器股份有限公司",
+      "quote": "甲方（需方）：蓝海精密仪器股份有限公司"
+    },
+    "supplier_name": {
+      "value": "迅捷自动化设备有限公司",
+      "quote": "乙方（供方）：迅捷自动化设备有限公司"
+    },
+    "amount": {
+      "value": 350000,
+      "quote": "（小写：¥350,000.00）"
+    },
+    "payment_days": {
+      "value": 75,
+      "quote": "甲方在75日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 8.0,
+      "quote": "按合同总金额的8%"
+    },
+    "delivery_date": {
+      "value": "2026-09-20",
+      "quote": "应于2026年9月20日前"
+    },
+    "signing_date": {
+      "value": "2026-08-05",
+      "quote": "签订日期：2026年8月5日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

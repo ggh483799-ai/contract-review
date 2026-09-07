@@ -1,0 +1,45 @@
+{
+  "id": "V13",
+  "file": "V13.pdf",
+  "source": "text",
+  "expected_risk": "pass",
+  "planted": [],
+  "fields": {
+    "buyer_name": {
+      "value": "中恒电子科技有限公司",
+      "quote": "甲方（需方）：中恒电子科技有限公司"
+    },
+    "supplier_name": {
+      "value": "天工精密模具有限公司",
+      "quote": "乙方（供方）：天工精密模具有限公司"
+    },
+    "amount": {
+      "value": 90000,
+      "quote": "（小写：¥90,000.00）"
+    },
+    "payment_days": {
+      "value": 30,
+      "quote": "甲方在30日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 5.0,
+      "quote": "按合同总金额的5%"
+    },
+    "delivery_date": {
+      "value": "2026-09-12",
+      "quote": "应于2026年9月12日前"
+    },
+    "signing_date": {
+      "value": "2026-08-06",
+      "quote": "签订日期：2026年8月6日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

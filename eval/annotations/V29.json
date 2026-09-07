@@ -1,0 +1,45 @@
+{
+  "id": "V29",
+  "file": "V29.pdf",
+  "source": "text",
+  "expected_risk": "pass",
+  "planted": [],
+  "fields": {
+    "buyer_name": {
+      "value": "恒信医疗器械有限公司",
+      "quote": "甲方（需方）：恒信医疗器械有限公司"
+    },
+    "supplier_name": {
+      "value": "鑫泰五金制品有限公司",
+      "quote": "乙方（供方）：鑫泰五金制品有限公司"
+    },
+    "amount": {
+      "value": 850000,
+      "quote": "（小写：¥850,000.00）"
+    },
+    "payment_days": {
+      "value": 45,
+      "quote": "甲方在45日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 14.0,
+      "quote": "按合同总金额的14%"
+    },
+    "delivery_date": {
+      "value": "2026-10-28",
+      "quote": "应于2026年10月28日前"
+    },
+    "signing_date": {
+      "value": "2026-08-31",
+      "quote": "签订日期：2026年8月31日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

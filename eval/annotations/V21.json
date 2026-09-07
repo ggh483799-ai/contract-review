@@ -1,0 +1,47 @@
+{
+  "id": "V21",
+  "file": "V21.pdf",
+  "source": "text",
+  "expected_risk": "warning",
+  "planted": [
+    "违约金条款缺失"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "盛世云数据有限公司",
+      "quote": "甲方（需方）：盛世云数据有限公司"
+    },
+    "supplier_name": {
+      "value": "金石工业材料有限公司",
+      "quote": "乙方（供方）：金石工业材料有限公司"
+    },
+    "amount": {
+      "value": 240000,
+      "quote": "（小写：¥240,000.00）"
+    },
+    "payment_days": {
+      "value": 35,
+      "quote": "甲方在35日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": null,
+      "quote": null
+    },
+    "delivery_date": {
+      "value": "2026-09-22",
+      "quote": "应于2026年9月22日前"
+    },
+    "signing_date": {
+      "value": "2026-08-07",
+      "quote": "签订日期：2026年8月7日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

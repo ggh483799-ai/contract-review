@@ -1,0 +1,47 @@
+{
+  "id": "C08",
+  "file": "C08.pdf",
+  "source": "text",
+  "expected_risk": "warning",
+  "planted": [
+    "无争议解决条款"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "中恒电子科技有限公司",
+      "quote": "甲方（需方）：中恒电子科技有限公司"
+    },
+    "supplier_name": {
+      "value": "迅捷自动化设备有限公司",
+      "quote": "乙方（供方）：迅捷自动化设备有限公司"
+    },
+    "amount": {
+      "value": 420000,
+      "quote": "（小写：¥420,000.00）"
+    },
+    "payment_days": {
+      "value": 40,
+      "quote": "甲方在40日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 10.0,
+      "quote": "按合同总金额的10%"
+    },
+    "delivery_date": {
+      "value": "2026-10-30",
+      "quote": "应于2026年10月30日前"
+    },
+    "signing_date": {
+      "value": "2026-08-15",
+      "quote": "签订日期：2026年8月15日"
+    },
+    "dispute_resolution": {
+      "value": null,
+      "quote": null
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

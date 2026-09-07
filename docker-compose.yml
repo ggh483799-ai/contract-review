@@ -1,0 +1,17 @@
+services:
+  contract-review:
+    build: .
+    container_name: contract-review
+    ports:
+      - "8020:8020"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8020/healthz')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

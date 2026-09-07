@@ -1,0 +1,47 @@
+{
+  "id": "C11",
+  "file": "C11.pdf",
+  "source": "text",
+  "expected_risk": "warning",
+  "planted": [
+    "付款条件模糊无明确账期"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "鼎盛机械制造有限公司",
+      "quote": "甲方（需方）：鼎盛机械制造有限公司"
+    },
+    "supplier_name": {
+      "value": "金石工业材料有限公司",
+      "quote": "乙方（供方）：金石工业材料有限公司"
+    },
+    "amount": {
+      "value": 150000,
+      "quote": "（小写：¥150,000.00）"
+    },
+    "payment_days": {
+      "value": null,
+      "quote": null
+    },
+    "penalty_rate": {
+      "value": 8.0,
+      "quote": "按合同总金额的8%"
+    },
+    "delivery_date": {
+      "value": "2026-09-18",
+      "quote": "应于2026年9月18日前"
+    },
+    "signing_date": {
+      "value": "2026-08-03",
+      "quote": "签订日期：2026年8月3日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

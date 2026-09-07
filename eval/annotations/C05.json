@@ -1,0 +1,47 @@
+{
+  "id": "C05",
+  "file": "C05.pdf",
+  "source": "text",
+  "expected_risk": "high",
+  "planted": [
+    "违约金22%>20%红线"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "鼎盛机械制造有限公司",
+      "quote": "甲方（需方）：鼎盛机械制造有限公司"
+    },
+    "supplier_name": {
+      "value": "华宇电子元器件有限公司",
+      "quote": "乙方（供方）：华宇电子元器件有限公司"
+    },
+    "amount": {
+      "value": 540000,
+      "quote": "（小写：¥540,000.00）"
+    },
+    "payment_days": {
+      "value": 50,
+      "quote": "甲方在50日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 22.0,
+      "quote": "按合同总金额的22%"
+    },
+    "delivery_date": {
+      "value": "2026-11-10",
+      "quote": "应于2026年11月10日前"
+    },
+    "signing_date": {
+      "value": "2026-08-20",
+      "quote": "签订日期：2026年8月20日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": null,
+      "quote": null
+    }
+  }
+}

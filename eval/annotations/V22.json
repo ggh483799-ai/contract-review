@@ -1,0 +1,47 @@
+{
+  "id": "V22",
+  "file": "V22.pdf",
+  "source": "text",
+  "expected_risk": "high",
+  "planted": [
+    "金额160万超100万且未会签"
+  ],
+  "fields": {
+    "buyer_name": {
+      "value": "鼎盛机械制造有限公司",
+      "quote": "甲方（需方）：鼎盛机械制造有限公司"
+    },
+    "supplier_name": {
+      "value": "江南轴承股份有限公司",
+      "quote": "乙方（供方）：江南轴承股份有限公司"
+    },
+    "amount": {
+      "value": 1600000,
+      "quote": "（小写：¥1,600,000.00）"
+    },
+    "payment_days": {
+      "value": 45,
+      "quote": "甲方在45日内向乙方支付"
+    },
+    "penalty_rate": {
+      "value": 15.0,
+      "quote": "按合同总金额的15%"
+    },
+    "delivery_date": {
+      "value": "2026-12-28",
+      "quote": "应于2026年12月28日前"
+    },
+    "signing_date": {
+      "value": "2026-08-29",
+      "quote": "签订日期：2026年8月29日"
+    },
+    "dispute_resolution": {
+      "value": "甲方所在地法院诉讼",
+      "quote": "向甲方所在地有管辖权的人民法院提起诉讼"
+    },
+    "countersign": {
+      "value": "未会签",
+      "quote": "会签记录：未会签"
+    }
+  }
+}
