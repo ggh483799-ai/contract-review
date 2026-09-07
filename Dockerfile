@@ -12,6 +12,7 @@ COPY rules/ ./rules/
 COPY report/ ./report/
 COPY eval/ ./eval/
 COPY app.py pipeline.py storage.py ./
+COPY static/ ./static/
 
 ENV PYTHONUNBUFFERED=1
 
