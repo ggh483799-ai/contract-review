@@ -23,7 +23,13 @@ jobs:
             set -e
             cd /opt/contract-review
             echo "[INFO] git pull: $(date '+%F %T')"
-            git pull origin main
+            ok=0
+            for i in 1 2 3; do
+              if git pull origin main; then ok=1; break; fi
+              echo "[WARN] git pull 第 ${i} 次失败，10s 后重试"
+              sleep 10
+            done
+            if [ "$ok" -ne 1 ]; then echo "[ERROR] git pull 连续 3 次失败"; exit 1; fi
             echo "[INFO] docker compose up -d --build"
             sudo docker compose up -d --build
             echo "[INFO] 等待服务就绪..."
