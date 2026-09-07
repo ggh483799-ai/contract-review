@@ -50,6 +50,18 @@ def healthz():
     return {"status": "ok", "feedback_records": feedback_count()}
 
 
+@app.get("/", include_in_schema=False)
+def index():
+    """Web 审核工作台（static/index.html）。"""
+    from fastapi.responses import FileResponse
+    from pathlib import Path
+
+    index_path = Path(__file__).parent / "static" / "index.html"
+    if not index_path.exists():
+        raise HTTPException(404, "前端页面缺失：static/index.html")
+    return FileResponse(index_path, media_type="text/html")
+
+
 @app.post("/contracts/review")
 async def review_endpoint(file: UploadFile = File(...)):
     if not (file.filename or "").lower().endswith(".pdf"):

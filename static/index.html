@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>采购合同智能审核系统</title>
+<style>
+:root {
+  --bg: #f5f7fa; --card: #ffffff; --border: #e4e9f0;
+  --text: #24303f; --muted: #7b8794; --primary: #2563eb;
+  --high: #dc2626; --warn: #d97706; --pass: #16a34a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); }
+.container { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
+header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+h1 { font-size: 22px; }
+header .sub { color: var(--muted); font-size: 13px; }
+header .sub a { color: var(--primary); text-decoration: none; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.card h2 { font-size: 15px; margin-bottom: 12px; color: var(--text); }
+
+/* 上传区 */
+#drop { border: 2px dashed #b9c6d8; border-radius: 10px; padding: 36px 16px; text-align: center;
+  cursor: pointer; transition: all .15s; color: var(--muted); }
+#drop.drag, #drop:hover { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+#drop strong { color: var(--primary); }
+#fileInfo { margin-top: 10px; font-size: 13px; color: var(--text); }
+#reviewBtn { margin-top: 14px; width: 100%; padding: 11px; border: 0; border-radius: 8px;
+  background: var(--primary); color: #fff; font-size: 15px; cursor: pointer; }
+#reviewBtn:disabled { background: #a8c0e8; cursor: not-allowed; }
+#status { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; min-height: 18px; }
+.spin { display: inline-block; width: 13px; height: 13px; border: 2px solid #cbd5e1;
+  border-top-color: var(--primary); border-radius: 50%; animation: r .8s linear infinite; vertical-align: -2px; margin-right: 6px; }
+@keyframes r { to { transform: rotate(360deg); } }
+
+/* 风险横幅 */
+#riskBanner { display: none; align-items: center; gap: 14px; flex-wrap: wrap; }
+.badge { padding: 6px 18px; border-radius: 999px; color: #fff; font-size: 17px; font-weight: 700; }
+.badge.high { background: var(--high); } .badge.warn { background: var(--warn); } .badge.pass { background: var(--pass); }
+#riskMeta { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* 表格 */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: #f1f5f9; white-space: nowrap; }
+td .quote { color: var(--muted); font-size: 12px; display: block; margin-top: 3px; }
+td .quote::before { content: "❝ "; opacity: .6; }
+.sev { font-weight: 700; white-space: nowrap; }
+.sev.high { color: var(--high); } .sev.warning { color: var(--warn); } .sev.info { color: var(--pass); }
+.conf-ok { color: var(--pass); } .conf-mid { color: var(--warn); } .conf-low { color: var(--high); }
+
+/* 报告 */
+#reportBody { font-size: 13.5px; line-height: 1.75; }
+#reportBody h1, #reportBody h2, #reportBody h3 { margin: 14px 0 8px; }
+#reportBody h1 { font-size: 17px; } #reportBody h2 { font-size: 15px; } #reportBody h3 { font-size: 14px; }
+#reportBody p { margin: 6px 0; }
+#reportBody li { margin-left: 20px; margin: 4px 0 4px 20px; }
+#reportBody hr { border: 0; border-top: 1px solid var(--border); margin: 12px 0; }
+
+/* 复核 */
+.fb-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+select, input[type=text], textarea { border: 1px solid var(--border); border-radius: 7px; padding: 8px 10px; font-size: 13px; font-family: inherit; }
+select { min-width: 150px; }
+input[type=text] { flex: 1; min-width: 180px; }
+textarea { width: 100%; margin-top: 10px; resize: vertical; }
+#fbBtn { margin-top: 10px; padding: 9px 22px; border: 0; border-radius: 7px; background: var(--text); color: #fff; cursor: pointer; font-size: 13px; }
+#fbMsg { margin-top: 8px; font-size: 13px; }
+.hide { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📋 采购合同智能审核系统</h1>
+    <span class="sub">上传 PDF → 解析/OCR → LLM 结构化抽取（带原文溯源）→ 红线规则比对 → 风险报告 · <a href="/docs" target="_blank">API 文档</a></span>
+  </header>
+
+  <div class="card">
+    <h2>① 上传合同 PDF</h2>
+    <div id="drop">拖拽 PDF 到这里，或 <strong>点击选择文件</strong><br><span style="font-size:12px">文本型 / 扫描件均可（扫描件自动走 OCR）</span></div>
+    <input type="file" id="file" accept=".pdf" class="hide">
+    <div id="fileInfo"></div>
+    <button id="reviewBtn" disabled>开始审核</button>
+    <div id="status"></div>
+  </div>
+
+  <div class="card" id="riskCard">
+    <h2>② 审核结论</h2>
+    <div id="riskBanner">
+      <span class="badge" id="riskBadge">—</span>
+      <div id="riskMeta"></div>
+    </div>
+  </div>
+
+  <div class="card hide" id="hitsCard">
+    <h2>③ 命中的红线规则</h2>
+    <table><thead><tr><th style="width:70px">规则</th><th style="width:60px">级别</th><th>说明</th></tr></thead><tbody id="hitsBody"></tbody></table>
+  </div>
+
+  <div class="card hide" id="fieldsCard">
+    <h2>④ 关键字段抽取结果（含原文溯源）</h2>
+    <table><thead><tr><th>字段</th><th style="width:130px">值</th><th style="width:80px">置信度</th><th>原文引用</th></tr></thead><tbody id="fieldsBody"></tbody></table>
+  </div>
+
+  <div class="card hide" id="reportCard">
+    <h2>⑤ 审查报告</h2>
+    <div id="reportBody"></div>
+  </div>
+
+  <div class="card hide" id="fbCard">
+    <h2>⑥ 人工复核（修正误判字段，沉淀闭环数据）</h2>
+    <div class="fb-row">
+      <select id="fbField"></select>
+      <input type="text" id="fbValue" placeholder="修正后的值，如 90">
+      <input type="text" id="fbQuote" placeholder="修正依据（可选，原文引用）">
+    </div>
+    <textarea id="fbComment" rows="2" placeholder="复核备注（可选）"></textarea>
+    <button id="fbBtn">提交复核</button>
+    <div id="fbMsg"></div>
+  </div>
+</div>
+
+<script>
+const FIELD_LABELS = {
+  buyer_name: "甲方（需方）", supplier_name: "乙方（供方）", amount: "合同总金额（元）",
+  payment_days: "付款账期（天）", penalty_rate: "违约金比例（%）", delivery_date: "交货日期",
+  signing_date: "签署日期", dispute_resolution: "争议解决方式", countersign: "会签状态"
+};
+const $ = id => document.getElementById(id);
+let file = null, lastResult = null;
+
+const drop = $("drop");
+drop.onclick = () => $("file").click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add("drag"); };
+drop.ondragleave = () => drop.classList.remove("drag");
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove("drag"); pick(e.dataTransfer.files[0]); };
+$("file").onchange = e => pick(e.target.files[0]);
+
+function pick(f) {
+  if (!f || !f.name.toLowerCase().endsWith(".pdf")) { $("fileInfo").textContent = "⚠️ 仅支持 PDF"; return; }
+  file = f;
+  $("fileInfo").textContent = "已选择：" + f.name + "（" + (f.size / 1024).toFixed(0) + " KB）";
+  $("reviewBtn").disabled = false;
+}
+
+$("reviewBtn").onclick = async () => {
+  if (!file) return;
+  $("reviewBtn").disabled = true;
+  $("status").innerHTML = '<span class="spin"></span>审核中：解析 → OCR（如需）→ LLM 逐条款抽取 → 规则比对 → 生成报告，扫描件约 30–60 秒…';
+  ["riskCard","hitsCard","fieldsCard","reportCard","fbCard"].forEach(i => $(i).classList.add("hide"));
+  const fd = new FormData(); fd.append("file", file);
+  try {
+    const resp = await fetch("/contracts/review", { method: "POST", body: fd });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || resp.status);
+    lastResult = data; render(data);
+    $("status").textContent = "";
+  } catch (err) {
+    $("status").innerHTML = '<span style="color:var(--high)">审核失败：' + err.message + "</span>";
+  }
+  $("reviewBtn").disabled = false;
+};
+
+function render(r) {
+  const badge = $("riskBadge"), cls = r.risk_level.includes("高") ? "high" : r.risk_level.includes("警") ? "warn" : "pass";
+  badge.className = "badge " + cls; badge.textContent = r.risk_level;
+  const n = (r.rule_hits || []).length;
+  $("riskMeta").innerHTML = "记录编号 <b>#</b>" + r.record_id + "　命中红线 <b>" + n + "</b> 条" +
+    (n ? "" : "　✅ 未触发任何红线") + "<br>字段级溯源见下表，报告已生成（含 CoT 推理）";
+  $("riskCard").classList.remove("hide");
+
+  $("hitsBody").innerHTML = (r.rule_hits || []).map(h =>
+    "<tr><td>" + h.id + '</td><td class="sev ' + h.severity + '">' + sevLabel(h.severity) + "</td><td>" + esc(h.message) + "</td></tr>"
+  ).join("") || '<tr><td colspan="3" style="color:var(--pass)">✔ 无红线命中</td></tr>';
+  $("hitsCard").classList.remove("hide");
+
+  $("fieldsBody").innerHTML = Object.entries(r.fields || {}).map(([k, f]) => {
+    const c = f.confidence, cc = c >= 0.9 ? "conf-ok" : c >= 0.7 ? "conf-mid" : "conf-low";
+    return "<tr><td>" + (FIELD_LABELS[k] || k) + "</td><td><b>" + esc(String(f.value ?? "—")) + "</b></td>" +
+      '<td class="' + cc + '">' + (c * 100).toFixed(0) + "%</td><td>" + (f.quote ? '<span class="quote">' + esc(f.quote) + "</span>" : "—") + "</td></tr>";
+  }).join("");
+  $("fieldsCard").classList.remove("hide");
+
+  $("reportBody").innerHTML = mdRender(r.report_md || "");
+  $("reportCard").classList.remove("hide");
+
+  $("fbField").innerHTML = Object.keys(r.fields || {}).map(k =>
+    '<option value="' + k + '">' + (FIELD_LABELS[k] || k) + "（当前：" + esc(String(r.fields[k].value ?? "无")) + "）</option>").join("");
+  $("fbCard").classList.remove("hide");
+  $("fbMsg").textContent = "";
+  $("riskCard").scrollIntoView({ behavior: "smooth" });
+}
+
+$("fbBtn").onclick = async () => {
+  if (!lastResult) return;
+  const field = $("fbField").value, val = $("fbValue").value.trim();
+  if (!val) { $("fbMsg").innerHTML = '<span style="color:var(--warn)">请填写修正后的值</span>'; return; }
+  const correction = { value: val };
+  if ($("fbQuote").value.trim()) correction.quote = $("fbQuote").value.trim();
+  const resp = await fetch("/contracts/feedback", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ record_id: lastResult.record_id, corrections: { [field]: correction }, comment: $("fbComment").value.trim() })
+  });
+  const data = await resp.json();
+  $("fbMsg").innerHTML = resp.ok
+    ? '<span style="color:var(--pass)">✅ 已落库：feedback_id=' + data.feedback_id + "（复核数据沉淀，用于后续规则/提示词迭代）</span>"
+    : '<span style="color:var(--high)">失败：' + (data.detail || resp.status) + "</span>";
+};
+
+function sevLabel(s) { return { high: "高危", warning: "警告", info: "提示" }[s] || s; }
+function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+/* 轻量 Markdown 渲染：标题/加粗/表格/列表/分隔线（不引外部 CDN，离线可用） */
+function mdRender(md) {
+  const lines = esc(md).split("\n");
+  let html = "", inTable = false, inUl = false;
+  const closeTable = () => { if (inTable) { html += "</tbody></table>"; inTable = false; } };
+  const closeUl = () => { if (inUl) { html += "</ul>"; inUl = false; } };
+  const inline = s => s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`(.+?)`/g, '<code style="background:#f1f5f9;padding:1px 4px;border-radius:4px">$1</code>');
+  for (let i = 0; i < lines.length; i++) {
+    const L = lines[i].trim();
+    if (/^\|.*\|$/.test(L)) {
+      const cells = L.slice(1, -1).split("|");
+      if (/^[\s:|-]+$/.test(L)) continue;
+      if (!inTable) { html += '<table style="margin:8px 0"><thead><tr>' + cells.map(c => "<th>" + inline(c.trim()) + "</th>").join("") + "</tr></thead><tbody>"; inTable = true; continue; }
+      html += "<tr>" + cells.map(c => "<td>" + inline(c.trim()) + "</td>").join("") + "</tr>"; continue;
+    }
+    closeTable();
+    if (/^### /.test(L)) { closeUl(); html += "<h3>" + inline(L.slice(4)) + "</h3>"; }
+    else if (/^## /.test(L)) { closeUl(); html += "<h2>" + inline(L.slice(3)) + "</h2>"; }
+    else if (/^# /.test(L)) { closeUl(); html += "<h1>" + inline(L.slice(2)) + "</h1>"; }
+    else if (/^---+$/.test(L)) { closeUl(); html += "<hr>"; }
+    else if (/^[-*] /.test(L)) { if (!inUl) { html += "<ul>"; inUl = true; } html += "<li>" + inline(L.slice(2)) + "</li>"; }
+    else if (/^\d+\.\s/.test(L)) { closeUl(); html += "<p>" + inline(L) + "</p>"; }
+    else if (L === "") { closeUl(); }
+    else { closeUl(); html += "<p>" + inline(L) + "</p>"; }
+  }
+  closeTable(); closeUl();
+  return html;
+}
+</script>
+</body>
+</html>
