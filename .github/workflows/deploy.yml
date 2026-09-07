@@ -49,6 +49,15 @@ jobs:
               echo "HEALTH $url -> $code"
               case "$code" in 200) ;; *) fail=1 ;; esac
             done
+            # OCR 冒烟：容器内真实跑一次 渲染+识别（healthz 测不出系统库缺失）
+            if sudo docker exec contract-review python -c "
+import fitz
+from rapidocr_onnxruntime import RapidOCR
+d = fitz.open(); p = d.new_page(); p.insert_text((72, 72), 'OCR smoke')
+eng = RapidOCR(); result, _ = eng(p.get_pixmap().tobytes('png'))
+assert result, 'OCR 无结果'
+print('OCR-SMOKE-OK')
+" 2>/dev/null; then echo "OCR 冒烟通过"; else echo "[ERROR] OCR 冒烟失败"; fail=1; fi
             sudo docker compose -f /opt/contract-review/docker-compose.yml ps
             if [ "$fail" -ne 0 ]; then echo "[ERROR] 健康检查未全部通过"; exit 1; fi
             echo "[INFO] 全部健康检查通过，部署完成"
