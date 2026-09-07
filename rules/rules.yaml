@@ -1,0 +1,77 @@
+# 采购合同红线规则配置（规则外置：改红线不改代码）
+# 字段路径引用抽取结果（如 payment_days.value）；条件全部 AND 组合。
+# severity: high=高危（命中即触发强制人工复核） / warning=警告
+# op 取值: gt / gte / lt / lte / eq / neq / eq_str / missing / not_missing
+
+rules:
+  - id: R001
+    name: 付款账期超过公司红线
+    conditions:
+      - {field: payment_days.value, op: gt, value: 60}
+    severity: high
+    message: "付款账期 {payment_days.value} 天，超过公司红线 60 天"
+
+  - id: R002
+    name: 违约金比例超过公司红线
+    conditions:
+      - {field: penalty_rate.value, op: gt, value: 20}
+    severity: high
+    message: "违约金比例 {penalty_rate.value}%，超过公司红线 20%"
+
+  - id: R003
+    name: 大额合同未会签
+    conditions:
+      - {field: amount.value, op: gt, value: 1000000}
+      - {field: countersign.value, op: eq_str, value: "未会签"}
+    severity: high
+    message: "合同金额 {amount.value} 元超过 100 万元且会签记录为「未会签」，必须先完成会签审批"
+
+  - id: R004
+    name: 大额合同会签情况未提及
+    conditions:
+      - {field: amount.value, op: gt, value: 1000000}
+      - {field: countersign.value, op: missing, value: null}
+    severity: warning
+    message: "合同金额 {amount.value} 元超过 100 万元，但合同未提及会签情况，需人工确认"
+
+  - id: R005
+    name: 付款账期未明确
+    conditions:
+      - {field: payment_days.value, op: missing, value: null}
+    severity: warning
+    message: "合同未明确付款账期（付款条件模糊或付款条款缺失），需人工确认"
+
+  - id: R006
+    name: 违约金条款缺失
+    conditions:
+      - {field: penalty_rate.value, op: missing, value: null}
+    severity: warning
+    message: "合同未约定违约金条款，建议补充以保障履约约束力"
+
+  - id: R007
+    name: 无争议解决条款
+    conditions:
+      - {field: dispute_resolution.value, op: missing, value: null}
+    severity: warning
+    message: "合同未约定争议解决方式，发生纠纷时维权成本高，建议补充"
+
+  - id: R008
+    name: 关键主体信息缺失
+    conditions:
+      - {field: buyer_name.value, op: missing, value: null}
+    severity: high
+    message: "甲方（需方）信息缺失，合同主体不完整"
+
+  - id: R009
+    name: 关键主体信息缺失（供方）
+    conditions:
+      - {field: supplier_name.value, op: missing, value: null}
+    severity: high
+    message: "乙方（供方）信息缺失，合同主体不完整"
+
+  - id: R010
+    name: 合同金额缺失
+    conditions:
+      - {field: amount.value, op: missing, value: null}
+    severity: high
+    message: "合同总金额缺失，无法完成审核"
