@@ -1,0 +1,48 @@
+name: Deploy to Tencent Cloud
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}   # 支持手动触发
+
+concurrency:
+  group: deploy-contract-review
+  cancel-in-progress: false   # 部署不并发、不取消，排队执行
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd /opt/contract-review
+            echo "[INFO] git pull: $(date '+%F %T')"
+            git pull origin main
+            echo "[INFO] docker compose up -d --build"
+            sudo docker compose up -d --build
+            echo "[INFO] 等待服务就绪..."
+            sleep 15
+
+      - name: Health check (on server)
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            fail=0
+            for url in http://127.0.0.1:8020/healthz http://127.0.0.1:8020/; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$url")
+              echo "HEALTH $url -> $code"
+              case "$code" in 200) ;; *) fail=1 ;; esac
+            done
+            sudo docker compose -f /opt/contract-review/docker-compose.yml ps
+            if [ "$fail" -ne 0 ]; then echo "[ERROR] 健康检查未全部通过"; exit 1; fi
+            echo "[INFO] 全部健康检查通过，部署完成"
